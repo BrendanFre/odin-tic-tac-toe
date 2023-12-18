@@ -15,14 +15,14 @@ const gameLogic = (function(){
 
 };
 
-const gameTurn = () =>{
-    let playerTurn = prompt("Please input a number from 1 to 9?")
+const gameTurn = (playerSymbol) =>{
+    let playerTurn = prompt(`Player ${playerSymbol}: Please input a number from 1 to 9?`)
     if(playerTurn <= 3){
-        gameBoard.addToken(0, playerTurn - 1, "x")
+        gameBoard.addToken(0, playerTurn - 1, playerSymbol)
     } else if (playerTurn <= 6){
-        gameBoard.addToken(1, playerTurn - 4, "x")
+        gameBoard.addToken(1, playerTurn - 4, playerSymbol)
     } else if (playerTurn <= 9){
-        gameBoard.addToken(2, playerTurn - 7, "x")
+        gameBoard.addToken(2, playerTurn - 7, playerSymbol)
     } else{
         console.log("Please enter correct number")
     }
@@ -64,7 +64,8 @@ let gameOver = false;
 let turnCounter = 0
 gameLogic.startGame()
 while (!gameOver && turnCounter < 6){
-    gameLogic.gameTurn()
+    gameLogic.gameTurn("x")
+    gameLogic.gameTurn("y")
     turnCounter++
     gameBoard.showBoard()
 }
