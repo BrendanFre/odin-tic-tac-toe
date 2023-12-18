@@ -1,19 +1,39 @@
 const gameLogic = (function () {
-    const whoWins = (player1, player2)=>{
-        if(player1 || player2){
+    const whoWins = (player1, player2) => {
+        if (player1 || player2) {
             return true
         }
     }
     const startGame = () => {
         console.log("Welcome to Tic Tac Toe - Console Version")
-        gameBoard.showBoard();
+        gameBoard.show();
+        setTimeout(gameLogic.gameLoop(), 4000);
     }
 
-    const winChecker = (numOfTurns, playerName) => {
-        if (numOfTurns >= 3) {
-            gameBoard.check(playerName)
+    const gameLoop = () => {
+        let isWinner = false;
+        let gameTurns = 0
+        while (!isWinner && gameTurns < 5) {
+            let playerTurn
+            gameBoard.show()
+            playerTurn = "o"
+            gameLogic.gameTurn("o")
+            isWinner = gameLogic.winChecker("o")
+            if (!isWinner) {
+                gameBoard.show()
+                playerTurn = "x"
+                gameLogic.gameTurn("x")
+                isWinner = gameLogic.winChecker("x")
+            }
+        }
+        console.log(`${playerTurn} wins`)
+    }
 
-        };
+    const winChecker = (playerName) => {
+        let didTheyWin = false
+        didTheyWin = gameBoard.check(playerName)
+
+        return didTheyWin;
 
     };
 
@@ -29,8 +49,7 @@ const gameLogic = (function () {
             console.log("Please enter correct number")
         }
     };
-
-    return { startGame, gameTurn, winChecker, whoWins };
+    return { startGame, gameTurn, winChecker, whoWins, gameLoop };
 
 }
 )
@@ -52,20 +71,38 @@ const gameBoard = (function () {
     );
 
 
-    const showBoard = () => console.table(theBoard);
+    const show = () => console.table(theBoard);
 
-    const addToken = (row, column, player) => {
+    const addToken = (row, column, playerSymbol) => {
+        console.log(`Arguments of add token row: ${row} column: ${column} player: ${playerSymbol}`)
         if (theBoard[row][column] == "x" || theBoard[row][column] == "o") {
             console.log("Already used, please try again")
         } else {
-            theBoard[row][column] = player
+            theBoard[row][column] = playerSymbol;
         }
     };
 
     const check = (playerName) => {
-        if (theBoard[0][0] == playerName && theBoard[0][1] == playerName && theBoard[0][2] == playerName) {
-            console.log(`${playerName} wins the game.`)
-            return true
+        for (let row = 0; row < 2; row++) {
+            if (theBoard[row][0] == playerName && theBoard[row][1] == playerName && theBoard[row][2] == playerName) {
+                console.log(`${playerName} wins the game.`)
+                return true
+            };
+            for (let column = 0; column < 2; column++) {
+                if (theBoard[0][column] == playerName && theBoard[1][column] == playerName && theBoard[2][column]) {
+                    console.log(`${playerName} wins the game.`)
+                    return true
+                }
+            };
+            if (theBoard[0][0] = playerName && theBoard[1][1] == playerName && theBoard[2][2] == playerName) {
+                console.log(`${playerName} wins the game.`)
+                return true
+            };
+            if (theBoard[0][2] = playerName && theBoard[1][1] == playerName && theBoard[2][0] == playerName) {
+                console.log(`${playerName} wins the game.`)
+                return true
+            };
+
 
             //Win condition 1: row 0 column 0 1 2
             //Win condition 2: row 1 column 0 1 2
@@ -77,23 +114,8 @@ const gameBoard = (function () {
             //Win condition 8: cell c2 r0, c1 r1, c0 r2
         }
     }
-    return { showBoard, addToken, check };
+    return { show, addToken, check };
 })();
 
-
-let gameOver = false;
-let turnCounter = 0
-let playerXWins = false
-let playerOWins = false
-
+gameBoard.show()
 gameLogic.startGame()
-
-while (!gameOver && turnCounter < 5) {
-    gameLogic.gameTurn("x")
-    playerXWins = gameLogic.winChecker(turnCounter, "x")
-    gameLogic.gameTurn("o")
-    playerOWins = gameLogic.winChecker(turnCounter, "o")
-    gameOver = gameLogic.whoWins(playerXWins, playerOWins)
-    turnCounter++
-    gameBoard.showBoard()
-};

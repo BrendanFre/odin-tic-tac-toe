@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "file:///home/linux/Documents/tic-tac/odin-tic-tac-toe/index.html",
+            "request": "launch",
+            "url": "file:///home/linux/Documents/tic-tac/odin-tic-tac-toe/index.html"
+        }
+    ]
+}
