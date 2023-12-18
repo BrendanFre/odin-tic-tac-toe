@@ -25,8 +25,10 @@ const gameLogic = (function () {
                 gameLogic.gameTurn("x")
                 isWinner = gameLogic.winChecker("x")
             }
+            gameTurns++
+            console.log(`${playerTurn} wins`)
         }
-        console.log(`${playerTurn} wins`)
+        
     }
 
     const winChecker = (playerName) => {
