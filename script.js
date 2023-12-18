@@ -1,7 +1,18 @@
 const gameLogic = (function(){
-const startGame = () => {
-    console.log("Welcome to Tic Tac Toe - Console Version")
-    gameBoard.showBoard();
+    const startGame = () => {
+        console.log("Welcome to Tic Tac Toe - Console Version")
+        gameBoard.showBoard();
+    const winChecker = ()=>{
+        //Win condition 1: row 0 column 0 1 2
+        //Win condition 2: row 1 column 0 1 2
+        //Win condition 3: row 2 column 0 1 2
+        //Win condition 4: row 0 1 2 column 0
+        //Win condition 5: row 0 1 2 column 1
+        //Win condition 6: row 0 1 2 column 2
+        //Win condition 7: cell c0 r0, c1 r1, c2 r2
+        //Win condition 8: cell c2 r0, c1 r1, c0 r2
+    }
+
 };
 
 const gameTurn = () =>{
