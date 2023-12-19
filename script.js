@@ -1,78 +1,133 @@
-function createPlayer(name, symbol){
+function createPlayer(name, symbol) {
     const playerName = name;
     const playerSymbol = symbol;
 
-    const selectToken = ()=>{
-        let tokenPosition = prompt("1-9");
+    const selectToken = () => {
+        let tokenPosition = prompt(`${name} it is your turn, please enter a number ranging from 1 to 9`);
         let playerRow = 0
         let playerColumn = 0
-        if(tokenPosition < 4){
+        if (tokenPosition < 4 && tokenPosition > 0) {
             playerColumn = tokenPosition - 1
             playerRow = 0
 
-        } else if(tokenPosition < 7){
+        } else if (tokenPosition < 7) {
             playerColumn = tokenPosition - 4
             playerRow = 1
-        } else if(tokenPosition < 10){
+        } else if (tokenPosition < 10) {
             playerColumn = tokenPosition - 7
             playerRow = 2
+        } else {
+            console.log('Please try again')
+            selectToken()
         }
         let successfulToken = gameBoard.addToken(playerRow, playerColumn, symbol)
-        if (successfulToken == 0){
+        if (successfulToken == 0) {
             selectToken()
         }
     }
 
-    return{ selectToken }
+    return { selectToken, playerName, playerSymbol }
 }
 
-const gameBoard = (function(){
+const gameBoard = (function () {
     let theGameBoard = [];
 
-    const createGameBoard = (rows, columns)=>{
-        for(let i = 0; i < rows; i++){
+    const createGameBoard = (rows, columns) => {
+        for (let i = 0; i < rows; i++) {
             theGameBoard[i] = []
         };
         theGameBoard.forEach(row => {
-            for(let counter = 0; counter < columns; counter++){
+            for (let counter = 0; counter < columns; counter++) {
                 row[counter] = "-"
             }
-            
+
         });
     };
 
-    const addToken = (row, column, playerSymbol)=>{
-        if(theGameBoard[row][column] == "-"){
+    const addToken = (row, column, playerSymbol) => {
+        if (theGameBoard[row][column] == "-") {
             theGameBoard[row][column] = playerSymbol
             return 1
-        } else{
+        } else {
             console.log("please try again")
             return 0
 
         }
-        
-    };
- 
-    return{ createGameBoard, theGameBoard, addToken }
+    }
+
+    const winnerCheck = (playerSymbol) => {
+        console.log(`${playerSymbol} is currently being checked`)
+        for (let row = 0; row < 3; row++) {
+
+            if (theGameBoard[row][0] == playerSymbol && theGameBoard[row][1] == playerSymbol && theGameBoard[row][2] == playerSymbol) {
+                return 1
+            }
+        };
+        for (let column = 0; column < 3; column++) {
+            if (theGameBoard[0][column] == playerSymbol) {
+                if (theGameBoard[1][column] == playerSymbol) {
+                    if (theGameBoard[2][column] == playerSymbol) {
+                        console.log(`${playerSymbol} won using column ${column}`)
+                        return 1
+                    }
+                }
+            }
+        };
+        if (theGameBoard[0][0] == playerSymbol && theGameBoard[1][1] == playerSymbol && theGameBoard[2][2] == playerSymbol) {
+            return 1
+        };
+        if (theGameBoard[0][2] == playerSymbol && theGameBoard[1][1] == playerSymbol && theGameBoard[2][0] == playerSymbol) {
+            return 1
+        };
+        return 0;
+    }
+
+    return { createGameBoard, theGameBoard, addToken, winnerCheck }
 
 })();
 
-const gameController = (function(){
+const gameController = (function () {
     let turns = 1
     let playing = true
-    const playLoop = ()=>{
-        while(turns < 5 && playing)
-{        playerOne.selectToken()
-        turns++
-        playerTwo.selectToken()
-        console.log(gameBoard.theGameBoard)}
+    let playerOneWins = 0
+    let playerTwoWins = 0
+    const playLoop = () => {
+        console.log(gameBoard.theGameBoard)
+        while (turns < 5 && playing) {
+            console.log(gameBoard.theGameBoard)
+            // playing= false
+            playerOne.selectToken()
+            playerOneWins = checkBoard(playerOne.playerSymbol)
+            if (playerOneWins == 0) {
+                turns++
+                playerTwo.selectToken()
+                playerTwoWins = checkBoard(playerTwo.playerSymbol)
+                console.log(gameBoard.theGameBoard)
+            }
+            // console.log(turns)
+
+            if (playerOneWins == 1 || playerTwoWins == 1) {
+                playing = false
+            }
+        };
+        if (playerOneWins == 1) {
+            console.log(`${playerOne.name} wins`)
+        } else if (playerTwoWins == 1) {
+            console.log(`${playerTwo.name} wins`)
+        } else {
+            console.log("Draw!")
+        }
+    };
+
+    const checkBoard = (playerSymbol) => {
+        return gameBoard.winnerCheck(playerSymbol)
     }
-    return{ playLoop}
+    return { playLoop, checkBoard }
 })();
 
 gameBoard.createGameBoard(3, 3)
 const playerOne = createPlayer("brendan", "x")
-const playerTwo = createPlayer("brendan", "o")
+const playerTwo = createPlayer("Oliver", "o")
 gameController.playLoop()
 console.log(gameBoard.theGameBoard)
 
