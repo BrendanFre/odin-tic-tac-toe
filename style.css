@@ -1,0 +1,25 @@
+.buttonContainer{
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 1vh 10vw 1vh 10vw;
+}
+
+.row{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    flex-direction: column;
+    gap: 10px;
+    height: 10vh;
+}
+
+.unselected{
+    background-color: aliceblue;
+    border: 1px solid lightslategrey;
+    border-radius: 25px;;
+}
+
+.unselected:hover{
+    background-color: lightslategray;
+}
