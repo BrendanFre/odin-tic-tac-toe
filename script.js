@@ -41,7 +41,7 @@ const gameBoard = (function(){
         });
     };
 
-    const addToken = (row, column, playerSymbol, playerObject)=>{
+    const addToken = (row, column, playerSymbol)=>{
         if(theGameBoard[row][column] == "-"){
             theGameBoard[row][column] = playerSymbol
             return 1
@@ -51,14 +51,29 @@ const gameBoard = (function(){
 
         }
         
-    }
-
+    };
+ 
     return{ createGameBoard, theGameBoard, addToken }
 
 })();
 
+const gameController = (function(){
+    let turns = 1
+    let playing = true
+    const playLoop = ()=>{
+        while(turns < 5 && playing)
+{        playerOne.selectToken()
+        turns++
+        playerTwo.selectToken()
+        console.log(gameBoard.theGameBoard)}
+    }
+    return{ playLoop}
+})();
+
 gameBoard.createGameBoard(3, 3)
 const playerOne = createPlayer("brendan", "x")
+const playerTwo = createPlayer("brendan", "o")
+gameController.playLoop()
 console.log(gameBoard.theGameBoard)
-playerOne.selectToken()
-playerOne.selectToken()
+
+
