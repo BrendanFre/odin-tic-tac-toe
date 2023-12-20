@@ -1,6 +1,14 @@
+:root{
+    --primary-color: #1e293b;
+    --primary-accent: #e2e8f0;
+    --secondary-color: #f0fdfax ;
+}
+
 body{
     margin: 0;
     padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: var(--secondary-color);
 }
 
 .container{
@@ -37,9 +45,10 @@ body{
 }
 
 footer, header{
-    background-color: lightgrey;
+    background-color: var(--primary-color);
     text-align: center;
     vertical-align: middle;
+    color: var(--primary-accent);
 }
 
 header{
@@ -53,12 +62,16 @@ header{
     grid-column: 2;
 }
 
-.playerName{
+.playerName, playerTurn{
     grid-row: 2;
 }
 
 .playerName:first-of-type{
     grid-column: 1;
+}
+
+.playerTurn{
+    grid-column: 2;
 }
 .playerName:last-of-type{
     grid-column: 3;

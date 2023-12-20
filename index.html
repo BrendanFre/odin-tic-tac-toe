@@ -6,15 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
     <header>
         <h1 class="gameName">Tic-Tac-Toe</h1>
-        <p class="playerName">Player One</p>
-        <p class="playerName">Player Two</p>
+        <p class="playerName" id="playerOneField">Player One</p>
+        <p class="playerTurn">Player One's Turn</p>
+        <p class="playerName" id="playerTwoField">Player Two</p>
     </header>
+<dialog id="nameChanger">
+    <p id="modalDescription">please enter your name:</p>
+    <label for="nameField">Name: <input type="text" name="" id="nameField"></label>
+    <button type="button" id="submitName">Submit</button>
+</dialog>
 <div class="buttonContainer">
         <div class="row">
             <button class="unselected">-</button>
@@ -34,6 +43,7 @@
     </div>
     <footer>Brendan Freeman &copy; 2023</footer>
 </div>
+<script src="script.js"></script>
 </body>
 
 </html>

@@ -1,3 +1,9 @@
+const nameModal = document.querySelector("#nameChanger")
+
+
+let playerOneName
+let playerTwoName
+
 function createPlayer(name, symbol) {
     const playerName = name;
     const playerSymbol = symbol;
@@ -125,10 +131,48 @@ const gameController = (function () {
     return { playLoop, checkBoard }
 })();
 
-gameBoard.createGameBoard(3, 3)
-const playerOne = createPlayer("brendan", "x")
-const playerTwo = createPlayer("Oliver", "o")
-gameController.playLoop()
-console.log(gameBoard.theGameBoard)
+// gameBoard.createGameBoard(3, 3)
+// const playerOne = createPlayer("brendan", "x")
+// const playerTwo = createPlayer("Oliver", "o")
+// gameController.playLoop()
+// console.log(gameBoard.theGameBoard)
+
+const definePlayerName = (player, playerNumber) => {
+    const nameInputField = document.querySelector('#nameField')
+    const modalDescription = document.querySelector('#modalDescription')
+    const submitName = document.querySelector('#submitName')
+    
+    
+
+    modalDescription.textContent = `${player} please input your name:`
+    
+    submitName.addEventListener('click', askName.bind(playerNumber))
+    nameModal.showModal()
+}
+
+    function askName(playerNumber){
+        const nameInputField = document.querySelector('#nameField')
+        const playerOneField = document.querySelector('#playerOneField')
+        const playerTwoField = document.querySelector('#playerTwoField')
+        let newName
+        nameModal.close()
+        newName = nameInputField.value
+        console.log(this)
+        if (this == 1) {
+            playerOneField.textContent = newName
+            playerOneName = newName
+            submitName.replaceWith(submitName.cloneNode(true));
+            nameInputField.value = ''
+            definePlayerName("Player Two", 2)
+
+        } else if (this == 2) {
+            
+            playerTwoField.textContent = newName
+            playerTwoName = newName
+        }
+    }
+
+definePlayerName('Player One', 1)
+
 
 
