@@ -72,6 +72,8 @@ header{
 .boardButtons{
     width: 20vw;
     height: 20vh;
+    font-size: largest;
+    color:black
 }
 
 .playerName, playerTurn{

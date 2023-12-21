@@ -37,7 +37,7 @@ function createPlayer(name, symbol) {
 
 const gameBoard = (function () {
     let theGameBoard = [];
-
+    let playerSelected
     const createGameBoard = (rows, columns) => {
         const mainContainer = document.querySelector('.buttonContainer')
         
@@ -60,12 +60,17 @@ const gameBoard = (function () {
                 const btnBoard = document.createElement('input')
             btnBoard.type='button'
             btnBoard.classList.add('boardButtons')
+            btnBoard.textContent = '-'
+            btnBoard.value = '-'
+            btnBoard.addEventListener('click', buttonPressed)
             row.appendChild(btnBoard)
+            }})
+            
             }
-            
-            
-        });
-    };
+
+    const buttonPressed = (e) =>{
+        e.target.value = playerSelected
+    }
 
     const addToken = (row, column, playerSymbol) => {
         if (theGameBoard[row][column] == "-") {
@@ -105,7 +110,7 @@ const gameBoard = (function () {
         return 0;
     }
 
-    return { createGameBoard, theGameBoard, addToken, winnerCheck }
+    return { createGameBoard, theGameBoard, addToken, winnerCheck, playerSelected }
 
 })();
 
@@ -188,6 +193,8 @@ function askName(playerNumber) {
 
 gameBoard.createGameBoard(3, 3)
 definePlayerName('Player One', 1)
+gameBoard.playerSelected = 'x'
+console.log(gameBoard.playerSelected)
 
 
 
