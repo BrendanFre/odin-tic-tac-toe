@@ -4,9 +4,43 @@ const nameModal = document.querySelector("#nameChanger")
 let playerOneName
 let playerTwoName
 
-function createPlayer(name, symbol) {
-    const playerName = name;
+function createPlayer(symbol, number) {
     const playerSymbol = symbol;
+    const playerNumber = number
+    const nameInputField = document.querySelector('#nameField')
+    const modalDescription = document.querySelector('#modalDescription')
+    const submitName = document.querySelector('#submitName')
+    const id = gameController.playerArray.length + 1
+
+    modalDescription.textContent = `Player please input your name:`
+    gameController.playerArray[id] = this
+    submitName.addEventListener('click', askName.bind(symbol))
+
+    submitName.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const username = document.querySelector('#nameField').value
+    })
+
+    function askName(playerNumber) {
+        const nameInputField = document.querySelector('#nameField')
+        const playerOneField = document.querySelector('#playerOneField')
+        const playerTwoField = document.querySelector('#playerTwoField')
+        let newName
+    
+        nameModal.close()
+        newName = nameInputField.value
+    
+        if (this == 1) {
+            playerOneField.textContent = newName
+            playerOneName = newName
+            submitName.replaceWith(submitName.cloneNode(true));
+            nameInputField.value = ''
+            definePlayerName("Player Two", 2)
+        } else if (this == 2) {
+            playerTwoField.textContent = newName
+            playerTwoName = newName
+        }
+    }
 
     const selectToken = () => {
         let tokenPosition = prompt(`${name} it is your turn, please enter a number ranging from 1 to 9`);
@@ -62,14 +96,16 @@ const gameBoard = (function () {
             btnBoard.classList.add('boardButtons')
             btnBoard.textContent = '-'
             btnBoard.value = '-'
-            btnBoard.addEventListener('click', buttonPressed)
+            btnBoard.addEventListener('click', buttonPressed.bind(playerSelected))
             row.appendChild(btnBoard)
             }})
             
             }
 
     const buttonPressed = (e) =>{
-        e.target.value = playerSelected
+        
+        console.log(this)
+        e.target.value = this
     }
 
     const addToken = (row, column, playerSymbol) => {
@@ -119,6 +155,41 @@ const gameController = (function () {
     let playing = true
     let playerOneWins = 0
     let playerTwoWins = 0
+    let playerArray = []
+
+    const createModal=()=>{
+        const newPlayerDialog = document.createElement('dialog')
+        const newPlayerHeader = document.createElement('h2')
+        const newPlayerNameLabel = document.createElement('label')
+        const newPlayerNameEntry = document.createElement('input')
+        const newPlayerNameButton = document.createElement('input')
+        const mainBody = document.querySelector('body')
+
+        newPlayerHeader.textContent = 'Please input your name'
+        newPlayerHeader.classList.add('modalHeader')
+
+        newPlayerNameLabel.textContent ="Username: "
+        newPlayerNameLabel.classList.add('modalInput')
+
+        newPlayerNameEntry.placeholder = 'Your username'
+
+        newPlayerNameButton.type = 'button'
+        newPlayerNameButton.value = 'Submit'
+
+
+        newPlayerNameLabel.appendChild(newPlayerNameEntry)
+        
+        newPlayerDialog.appendChild(newPlayerHeader)
+        newPlayerDialog.appendChild(newPlayerNameLabel)
+        newPlayerDialog.appendChild(newPlayerNameButton)
+        mainBody.appendChild(newPlayerDialog)
+        newPlayerDialog.showModal()
+
+    }
+
+
+
+
     const playLoop = () => {
         console.log(gameBoard.theGameBoard)
         while (turns < 5 && playing) {
@@ -150,51 +221,10 @@ const gameController = (function () {
     const checkBoard = (playerSymbol) => {
         return gameBoard.winnerCheck(playerSymbol)
     }
-    return { playLoop, checkBoard }
+    return { playLoop, checkBoard, playerArray, createModal }
 })();
 
-// gameBoard.createGameBoard(3, 3)
-// const playerOne = createPlayer("brendan", "x")
-// const playerTwo = createPlayer("Oliver", "o")
-// gameController.playLoop()
-// console.log(gameBoard.theGameBoard)
-
-const definePlayerName = (player, playerNumber) => {
-    const nameInputField = document.querySelector('#nameField')
-    const modalDescription = document.querySelector('#modalDescription')
-    const submitName = document.querySelector('#submitName')
-
-    modalDescription.textContent = `${player} please input your name:`
-    submitName.addEventListener('click', askName.bind(playerNumber))
-    nameModal.showModal()
-}
-
-function askName(playerNumber) {
-    const nameInputField = document.querySelector('#nameField')
-    const playerOneField = document.querySelector('#playerOneField')
-    const playerTwoField = document.querySelector('#playerTwoField')
-    let newName
-
-    nameModal.close()
-    newName = nameInputField.value
-    console.log(this)
-
-    if (this == 1) {
-        playerOneField.textContent = newName
-        playerOneName = newName
-        submitName.replaceWith(submitName.cloneNode(true));
-        nameInputField.value = ''
-        definePlayerName("Player Two", 2)
-    } else if (this == 2) {
-        playerTwoField.textContent = newName
-        playerTwoName = newName
-    }
-}
-
-gameBoard.createGameBoard(3, 3)
-definePlayerName('Player One', 1)
-gameBoard.playerSelected = 'x'
-console.log(gameBoard.playerSelected)
+gameController.createModal()
 
 
 
