@@ -175,6 +175,7 @@ const gameController = (function () {
 
         newPlayerNameButton.type = 'button'
         newPlayerNameButton.value = 'Submit'
+        newPlayerNameButton.addEventListener('click', ()=>{console.log("hib")})
 
 
         newPlayerNameLabel.appendChild(newPlayerNameEntry)
@@ -185,7 +186,7 @@ const gameController = (function () {
         mainBody.appendChild(newPlayerDialog)
         newPlayerDialog.showModal()
 
-    }
+    };
 
 
 
