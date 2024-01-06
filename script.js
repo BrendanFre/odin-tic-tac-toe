@@ -178,10 +178,6 @@ const gameBoard = (function () {
 })();
 
 const gameController = (function () {
-    let turns = 1
-    let playing = true
-    let playerOneWins = 0
-    let playerTwoWins = 0
 
     const createModal = () => {
         const newPlayerDialog = document.createElement('dialog')
