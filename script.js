@@ -36,9 +36,10 @@ function createPlayer(symbol, number, name) {
 const gameBoard = (function () {
     let theGameBoard = [];
     let playerSelected
+
     const createGameBoard = (rows, columns) => {
         const mainContainer = document.querySelector('.buttonContainer')
-        
+
         const btnBoard = document.createElement('input')
 
         btnBoard.type = 'button'
@@ -54,20 +55,32 @@ const gameBoard = (function () {
         console.log(allBoardRows)
 
         allBoardRows.forEach(row => {
-            for(let cells = 0; cells < rows; cells++){
+            for (let cells = 0; cells < rows; cells++) {
                 const btnBoard = document.createElement('input')
-            btnBoard.type='button'
-            btnBoard.classList.add('boardButtons')
-            btnBoard.textContent = '-'
-            btnBoard.value = '-'
-            btnBoard.addEventListener('click', buttonPressed.bind(playerSelected))
-            row.appendChild(btnBoard)
-            }})
-            
+                btnBoard.type = 'button'
+                btnBoard.classList.add('boardButtons')
+                btnBoard.classList.add('emptyTile')
+                btnBoard.textContent = '-'
+                btnBoard.value = '-'
+                row.appendChild(btnBoard)
             }
+        })
+        gameController.playLoop()
+    }
 
-    const buttonPressed = (e) =>{
-        
+    const setButtonTokens = (player) => {
+        const remainingTiles = document.querySelectorAll('.emptyTile');
+        remainingTiles.forEach(tile => {
+            tile.addEventListener('click', () => {
+                tile.value = player.playerSymbol
+                tile.classList.remove('emptyTile')
+            })
+        });
+
+    }
+
+    const buttonPressed = (e) => {
+
         console.log(this)
         e.target.value = this
     }
@@ -110,7 +123,7 @@ const gameBoard = (function () {
         return 0;
     }
 
-    return { createGameBoard, theGameBoard, addToken, winnerCheck, playerSelected }
+    return { createGameBoard, theGameBoard, addToken, winnerCheck, playerSelected, setButtonTokens }
 
 })();
 
@@ -121,7 +134,7 @@ const gameController = (function () {
     let playerTwoWins = 0
     let playerArray = []
 
-    const createModal=()=>{
+    const createModal = () => {
         const newPlayerDialog = document.createElement('dialog')
         const newPlayerHeader = document.createElement('h2')
         const newPlayerNameLabel = document.createElement('label')
@@ -132,39 +145,34 @@ const gameController = (function () {
         newPlayerHeader.textContent = 'Please input your name'
         newPlayerHeader.classList.add('modalHeader')
 
-        newPlayerNameLabel.textContent ="Username: "
+        newPlayerNameLabel.textContent = "Username: "
         newPlayerNameLabel.classList.add('modalInput')
 
         newPlayerNameEntry.placeholder = 'Your username'
 
         newPlayerNameButton.type = 'button'
         newPlayerNameButton.value = 'Submit'
-        newPlayerNameButton.addEventListener('click', ()=>{
-            // playerArray.forEach(element => { console.log(element)
-                
-            // })
-
-            console.log(playerArray.length)
-            console.log(playerArray)
+        newPlayerNameButton.addEventListener('click', () => {
             let newPlayer
-            if(playerArray.length == 0){
+            if (playerArray.length == 0) {
                 newPlayer = createPlayer('x', 1, newPlayerNameEntry.value)
                 playerArray.push(newPlayer)
-                console.log(`Player One: ${playerArray[1]}`)
+
                 gameController.updateNameFields(1, newPlayer.playerName)
                 newPlayerNameEntry.value = ""
-            } else if(playerArray.length == 1   ){
+            } else if (playerArray.length == 1) {
                 newPlayer = createPlayer('y', 2, newPlayerNameEntry.value)
                 playerArray.push(newPlayer)
-                console.log(playerArray)
                 gameController.updateNameFields(2, newPlayer.playerName)
-                newPlayerDialog.hidden = true
+                newPlayerDialog.remove()
+                gameBoard.createGameBoard(3, 3)
+
             }
         })
 
 
         newPlayerNameLabel.appendChild(newPlayerNameEntry)
-        
+
         newPlayerDialog.appendChild(newPlayerHeader)
         newPlayerDialog.appendChild(newPlayerNameLabel)
         newPlayerDialog.appendChild(newPlayerNameButton)
@@ -173,16 +181,16 @@ const gameController = (function () {
 
     };
 
-    const updateNameFields = (player, name)=>{
+    const updateNameFields = (player, name) => {
         let playerLabel
-        if(player == 1){
+        if (player == 1) {
             playerLabel = document.querySelector('#playerOneField')
-            
-        } else if(player == 2){
+
+        } else if (player == 2) {
             playerLabel = document.querySelector('#playerTwoField')
 
-        } else {console.log('Incorrect player number.')}
-        
+        } else { console.log('Incorrect player number.') }
+
         playerLabel.textContent = name;
 
     }
@@ -191,11 +199,12 @@ const gameController = (function () {
 
 
     const playLoop = () => {
-        console.log(gameBoard.theGameBoard)
+        console.log('loop started')
+        console.log(playerArray)
         while (turns < 5 && playing) {
             console.log(gameBoard.theGameBoard)
             // playing= false
-            playerOne.selectToken()
+            gameBoard.setButtonTokens(playerArray[0])
             playerOneWins = checkBoard(playerOne.playerSymbol)
             if (playerOneWins == 0) {
                 turns++
