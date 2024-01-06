@@ -1,0 +1,112 @@
+:root{
+    --primary-color: #1e293b;
+    --primary-accent: #e2e8f0;
+    --secondary-color: #f0fdfa ;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: var(--secondary-color);
+}
+
+.container{
+    display: grid;
+    grid-template-rows: 100px 80vh 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+.buttonContainer{
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 1vh 10vw 1vh 10vw;
+}
+
+.row{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    flex-direction: column;
+    gap: 10px;
+    height: 10vh;
+}
+
+.unselected{
+    background-color: aliceblue;
+    border: 1px solid lightslategrey;
+    border-radius: 25px;;
+}
+
+.unselected:hover{
+    background-color: lightslategray;
+}
+
+footer, header{
+    background-color: var(--primary-color);
+    text-align: center;
+    vertical-align: middle;
+    color: var(--primary-accent);
+}
+
+header{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 50px 1fr;
+}
+
+.gameName{
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.boardRows{
+    width: 80vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.boardButtons{
+    width: 20vw;
+    height: 20vh;
+    font-size: largest;
+    color:black
+}
+
+.modalHeader{
+    margin: 0;
+    padding: 0 5px 2px 10px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    margin-bottom: 2vh;
+}
+
+.modalInput{
+    padding: 20px 5px;
+    margin: 20px;
+}
+
+dialog{
+    padding: 0;
+    border-radius: 15px;
+    height: 22vh;
+    border: 3px solid var(--primary-accent);
+}
+
+.playerName, playerTurn{
+    grid-row: 2;
+}
+
+.playerName:first-of-type{
+    grid-column: 1;
+}
+
+.playerTurn{
+    grid-column: 2;
+}
+.playerName:last-of-type{
+    grid-column: 3;
+}
