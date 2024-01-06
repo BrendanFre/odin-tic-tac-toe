@@ -5,31 +5,7 @@ function createPlayer(symbol, number, name) {
     const playerSymbol = symbol;
     const playerName = name;
 
-    const selectToken = () => {
-        let tokenPosition = prompt(`${name} it is your turn, please enter a number ranging from 1 to 9`);
-        let playerRow = 0
-        let playerColumn = 0
-        if (tokenPosition < 4 && tokenPosition > 0) {
-            playerColumn = tokenPosition - 1
-            playerRow = 0
-
-        } else if (tokenPosition < 7) {
-            playerColumn = tokenPosition - 4
-            playerRow = 1
-        } else if (tokenPosition < 10) {
-            playerColumn = tokenPosition - 7
-            playerRow = 2
-        } else {
-            console.log('Please try again')
-            selectToken()
-        }
-        let successfulToken = gameBoard.addToken(playerRow, playerColumn, symbol)
-        if (successfulToken == 0) {
-            selectToken()
-        }
-    }
-
-    return { selectToken, playerName, playerSymbol }
+    return { playerName, playerSymbol }
 }
 
 const gameBoard = (function () {
@@ -50,7 +26,6 @@ const gameBoard = (function () {
         };
 
         const allBoardRows = document.querySelectorAll('.boardRows')
-        console.log(allBoardRows)
 
         allBoardRows.forEach(row => {
             for (let cells = 0; cells < rows; cells++) {
@@ -85,7 +60,6 @@ const gameBoard = (function () {
         const playerSelected = document.querySelectorAll(`.${player.playerSymbol}`)
         if(playerSelected.length >= 3){
             const allTiles = document.querySelectorAll('.boardButtons')
-            console.log(allTiles)
             
             if(allTiles[0].value == player.playerSymbol){
                 if(allTiles[1].value == player.playerSymbol){
@@ -133,12 +107,13 @@ const gameBoard = (function () {
                 }
             }
         }
+        
         let playerOneTokens = document.querySelectorAll(`.x`)
         let playerTwoTokens = document.querySelectorAll(`.o`)
-        console.log(playerArray)
         let totalTurns = playerOneTokens.length + playerTwoTokens.length
+
         if(totalTurns == 9){
-            console.log('game Over')
+         gameController.winnerScreen('draw')
         } else if(player.playerName == playerArray[0].playerName){
             setButtonTokens(playerArray[1])
         } else {
