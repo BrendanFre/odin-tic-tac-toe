@@ -70,29 +70,81 @@ const gameBoard = (function () {
 
     const setButtonTokens = (player) => {
         const remainingTiles = document.querySelectorAll('.emptyTile');
+        const playerTurnIndicator = document.querySelector('.playerTurn')
+        playerTurnIndicator.textContent = `${player.playerName}'s Turn.`
         remainingTiles.forEach(tile => {
             tile.addEventListener('click', () => {
                 tile.value = player.playerSymbol
                 tile.classList.remove('emptyTile')
+                tile.classList.add(player.playerSymbol)
+                gameBoard.checkWin(player)
             })
         });
 
     }
 
-    const buttonPressed = (e) => {
-
-        console.log(this)
-        e.target.value = this
-    }
-
-    const addToken = (row, column, playerSymbol) => {
-        if (theGameBoard[row][column] == "-") {
-            theGameBoard[row][column] = playerSymbol
-            return 1
+    const checkWin = (player)=>{
+        const playerSelected = document.querySelectorAll(`.${player.playerSymbol}`)
+        if(playerSelected.length >= 3){
+            const allTiles = document.querySelectorAll('.boardButtons')
+            console.log(allTiles)
+            
+            if(allTiles[0].value == player.playerSymbol){
+                if(allTiles[1].value == player.playerSymbol){
+                    if(allTiles[2].value == player.playerSymbol){
+                        console.log('Winner')
+                    }
+                }
+            }
+            
+            if(allTiles[3].value == player.playerSymbol){
+                if(allTiles[4].value == player.playerSymbol){
+                    if(allTiles[5].value == player.playerSymbol){
+                        console.log('Winner')
+                    }}}
+            if(allTiles[6].value == player.playerSymbol){
+                if(allTiles[7].value == player.playerSymbol){
+                    if(allTiles[8].value == player.playerSymbol){
+                        console.log('Winner')
+                    }}}
+            if(allTiles[0].value == player.playerSymbol){
+                if(allTiles[3].value == player.playerSymbol){
+                    if(allTiles[6].value == player.playerSymbol){
+                        console.log('Winner')
+                    }}}
+            if(allTiles[1].value == player.playerSymbol){
+                if(allTiles[4].value == player.playerSymbol){
+                    if(allTiles[7].value == player.playerSymbol){
+                        console.log('Winner')
+                    }}}
+            if(allTiles[2].value == player.playerSymbol){
+                if(allTiles[5].value == player.playerSymbol){
+                    if(allTiles[8].value == player.playerSymbol){
+                        console.log('Winner')
+                    }}}
+            if(allTiles[0].value == player.playerSymbol){
+                if(allTiles[4].value == player.playerSymbol){
+                    if(allTiles[8].value == player.playerSymbol){
+                        console.log('Winner')
+                    }}}
+            if(allTiles[2].value == player.playerSymbol){
+                if(allTiles[4].value == player.playerSymbol){
+                    if(allTiles[6].value == player.playerSymbol){
+                        console.log('Winner')
+                    }
+                }
+            }
+        }
+        let playerOneTokens = document.querySelectorAll(`.x`)
+        let playerTwoTokens = document.querySelectorAll(`.o`)
+        console.log(playerArray)
+        let totalTurns = playerOneTokens.length + playerTwoTokens.length
+        if(totalTurns == 9){
+            console.log('game Over')
+        } else if(player.playerName == playerArray[0].playerName){
+            setButtonTokens(playerArray[1])
         } else {
-            console.log("please try again")
-            return 0
-
+            setButtonTokens(playerArray[0])
         }
     }
 
@@ -123,7 +175,7 @@ const gameBoard = (function () {
         return 0;
     }
 
-    return { createGameBoard, theGameBoard, addToken, winnerCheck, playerSelected, setButtonTokens }
+    return { createGameBoard, theGameBoard, winnerCheck, playerSelected, setButtonTokens, checkWin }
 
 })();
 
@@ -132,7 +184,6 @@ const gameController = (function () {
     let playing = true
     let playerOneWins = 0
     let playerTwoWins = 0
-    let playerArray = []
 
     const createModal = () => {
         const newPlayerDialog = document.createElement('dialog')
