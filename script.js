@@ -90,7 +90,7 @@ const gameBoard = (function () {
             if(allTiles[0].value == player.playerSymbol){
                 if(allTiles[1].value == player.playerSymbol){
                     if(allTiles[2].value == player.playerSymbol){
-                        console.log('Winner')
+                        gameController.winnerScreen(player.playerName)
                     }
                 }
             }
@@ -98,37 +98,37 @@ const gameBoard = (function () {
             if(allTiles[3].value == player.playerSymbol){
                 if(allTiles[4].value == player.playerSymbol){
                     if(allTiles[5].value == player.playerSymbol){
-                        console.log('Winner')
+                        gameController.winnerScreen(player.playerName)
                     }}}
             if(allTiles[6].value == player.playerSymbol){
                 if(allTiles[7].value == player.playerSymbol){
                     if(allTiles[8].value == player.playerSymbol){
-                        console.log('Winner')
+                        gameController.winnerScreen(player.playerName)
                     }}}
             if(allTiles[0].value == player.playerSymbol){
                 if(allTiles[3].value == player.playerSymbol){
                     if(allTiles[6].value == player.playerSymbol){
-                        console.log('Winner')
+                        gameController.winnerScreen(player.playerName)
                     }}}
             if(allTiles[1].value == player.playerSymbol){
                 if(allTiles[4].value == player.playerSymbol){
                     if(allTiles[7].value == player.playerSymbol){
-                        console.log('Winner')
+                        gameController.winnerScreen(player.playerName)
                     }}}
             if(allTiles[2].value == player.playerSymbol){
                 if(allTiles[5].value == player.playerSymbol){
                     if(allTiles[8].value == player.playerSymbol){
-                        console.log('Winner')
+                        gameController.winnerScreen(player.playerName)
                     }}}
             if(allTiles[0].value == player.playerSymbol){
                 if(allTiles[4].value == player.playerSymbol){
                     if(allTiles[8].value == player.playerSymbol){
-                        console.log('Winner')
+                        gameController.winnerScreen(player.playerName)
                     }}}
             if(allTiles[2].value == player.playerSymbol){
                 if(allTiles[4].value == player.playerSymbol){
                     if(allTiles[6].value == player.playerSymbol){
-                        console.log('Winner')
+                        gameController.winnerScreen(player.playerName)
                     }
                 }
             }
@@ -146,34 +146,7 @@ const gameBoard = (function () {
         }
     }
 
-    const winnerCheck = (playerSymbol) => {
-        console.log(`${playerSymbol} is currently being checked`)
-        for (let row = 0; row < 3; row++) {
-
-            if (theGameBoard[row][0] == playerSymbol && theGameBoard[row][1] == playerSymbol && theGameBoard[row][2] == playerSymbol) {
-                return 1
-            }
-        };
-        for (let column = 0; column < 3; column++) {
-            if (theGameBoard[0][column] == playerSymbol) {
-                if (theGameBoard[1][column] == playerSymbol) {
-                    if (theGameBoard[2][column] == playerSymbol) {
-                        console.log(`${playerSymbol} won using column ${column}`)
-                        return 1
-                    }
-                }
-            }
-        };
-        if (theGameBoard[0][0] == playerSymbol && theGameBoard[1][1] == playerSymbol && theGameBoard[2][2] == playerSymbol) {
-            return 1
-        };
-        if (theGameBoard[0][2] == playerSymbol && theGameBoard[1][1] == playerSymbol && theGameBoard[2][0] == playerSymbol) {
-            return 1
-        };
-        return 0;
-    }
-
-    return { createGameBoard, winnerCheck, setButtonTokens, checkWin }
+    return { createGameBoard, setButtonTokens, checkWin }
 
 })();
 
@@ -217,7 +190,6 @@ const gameController = (function () {
 
 
         newPlayerNameLabel.appendChild(newPlayerNameEntry)
-
         newPlayerDialog.appendChild(newPlayerHeader)
         newPlayerDialog.appendChild(newPlayerNameLabel)
         newPlayerDialog.appendChild(newPlayerNameButton)
@@ -243,7 +215,22 @@ const gameController = (function () {
     const checkBoard = (playerSymbol) => {
         return gameBoard.winnerCheck(playerSymbol)
     }
-    return { checkBoard, createModal, updateNameFields }
+
+    const winnerScreen = (winner)=>{
+        const winnerModal = document.createElement('dialog')
+        const winnerText = document.createElement('h2')
+        const body = document.querySelector('body')
+        if(winner == 'draw'){
+            winnerText.textContent = 'Game over, It\'s a draw!'
+        } else {winnerText.textContent = `${winner} has won!`}
+        
+        winnerText.classList.add('winModal')
+
+        winnerModal.appendChild(winnerText)
+        body.appendChild(winnerModal)
+        winnerModal.showModal()
+    }
+    return { checkBoard, createModal, updateNameFields, winnerScreen }
 })();
 
 gameController.createModal()
