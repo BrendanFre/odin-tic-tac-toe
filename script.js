@@ -3,7 +3,6 @@ let playerArray = []
 
 function createPlayer(symbol, number, name) {
     const playerSymbol = symbol;
-    const playerNumber = number;
     const playerName = name;
 
     const selectToken = () => {
@@ -35,7 +34,6 @@ function createPlayer(symbol, number, name) {
 
 const gameBoard = (function () {
     let theGameBoard = [];
-    let playerSelected
 
     const createGameBoard = (rows, columns) => {
         const mainContainer = document.querySelector('.buttonContainer')
@@ -65,7 +63,7 @@ const gameBoard = (function () {
                 row.appendChild(btnBoard)
             }
         })
-        gameController.playLoop()
+        gameBoard.setButtonTokens(playerArray[0])
     }
 
     const setButtonTokens = (player) => {
@@ -175,7 +173,7 @@ const gameBoard = (function () {
         return 0;
     }
 
-    return { createGameBoard, theGameBoard, winnerCheck, playerSelected, setButtonTokens, checkWin }
+    return { createGameBoard, winnerCheck, setButtonTokens, checkWin }
 
 })();
 
@@ -246,42 +244,10 @@ const gameController = (function () {
 
     }
 
-
-
-
-    const playLoop = () => {
-        console.log('loop started')
-        console.log(playerArray)
-        while (turns < 5 && playing) {
-            console.log(gameBoard.theGameBoard)
-            // playing= false
-            gameBoard.setButtonTokens(playerArray[0])
-            playerOneWins = checkBoard(playerOne.playerSymbol)
-            if (playerOneWins == 0) {
-                turns++
-                playerTwo.selectToken()
-                playerTwoWins = checkBoard(playerTwo.playerSymbol)
-                console.log(gameBoard.theGameBoard)
-            }
-            // console.log(turns)
-
-            if (playerOneWins == 1 || playerTwoWins == 1) {
-                playing = false
-            }
-        };
-        if (playerOneWins == 1) {
-            console.log(`${playerOne.name} wins`)
-        } else if (playerTwoWins == 1) {
-            console.log(`${playerTwo.name} wins`)
-        } else {
-            console.log("Draw!")
-        }
-    };
-
     const checkBoard = (playerSymbol) => {
         return gameBoard.winnerCheck(playerSymbol)
     }
-    return { playLoop, checkBoard, playerArray, createModal, updateNameFields }
+    return { checkBoard, createModal, updateNameFields }
 })();
 
 gameController.createModal()
